@@ -6,6 +6,7 @@ function include(file) {
   script.type = 'text/javascript';
   script.defer = true;
 
+
   document.getElementsByTagName('head').item(0).appendChild(script);
 }
 
@@ -22,7 +23,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* import components */
-include('./static/js/components/index.js');
+const baseUrl = window.botConfig?.baseUrl || '';
+include(`${baseUrl}/static/js/components/index.js`);
 
 window.addEventListener('load', () => {
   // initialization
