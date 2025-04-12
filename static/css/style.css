@@ -4,7 +4,7 @@
 
 
 .widget {
-  display: flex;
+  display: none;
   flex-direction: column;
   width: 350px;
   right: 15px;

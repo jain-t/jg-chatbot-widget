@@ -35,7 +35,7 @@ window.addEventListener('load', () => {
     $shadow.find("div").removeClass("tap-target-origin");
    
     // drop down menu for close, restart conversation & clear the chats.
-    // $shadow.find(".dropdown-trigger").dropdown();
+    $shadow.find(".dropdown-trigger").dropdown();
 
     // initiate the modal for displaying the charts,
     // if you dont have charts, then you comment the below line
@@ -54,7 +54,8 @@ window.addEventListener('load', () => {
   $shadow.find("#profile_div").click(() => {
     // alert("clicked")
     $shadow.find("#profile_div").toggle();
-    $shadow.find(".widget").toggle();
+    const $widget = $shadow.find(".widget");
+    $widget.css("display", $widget.css("display") === "none" ? "flex" : "none");
   });
 
   // clear function to clear the chat contents of the widget.
