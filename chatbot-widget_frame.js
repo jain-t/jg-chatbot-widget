@@ -1,11 +1,12 @@
+
 (function () {
-  // Set config
-  window.botConfig = {
-    baseUrl: ".", // Replace with your actual base URL
-    botAvatar: "bot.png",
-    welcomeMessage: "Hi there! 👋",
-    botName: "MyBot",
-    userAvatar: "user.png",
+  // Configuration
+  const botConfig = {
+    baseUrl: ".", // Update to your static host path if needed
+    botAvatar: "{{ bot_avatar }}",
+    welcomeMessage: "{{ welcome_message }}",
+    botName: "{{ bot_name }}",
+    userAvatar: "{{ user_avatar }}"
   };
 
   // Create container
@@ -13,8 +14,8 @@
   container.style.position = "fixed";
   container.style.bottom = "20px";
   container.style.right = "20px";
-  container.style.width = "350px";
-  container.style.height = "500px";
+  container.style.width = "400px";
+  container.style.height = "550px";
   container.style.zIndex = "9999";
   container.style.overflow = "hidden";
 
@@ -24,48 +25,47 @@
   iframe.style.height = "100%";
   iframe.style.border = "none";
   iframe.setAttribute("sandbox", "allow-scripts allow-same-origin allow-forms");
-
-  // Attach iframe to container
   container.appendChild(iframe);
   document.body.appendChild(container);
 
-  // Construct HTML with srcdoc (this ensures everything gets injected properly)
-  iframe.srcdoc = `
+  // iframe content
+  const srcdoc = `
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chatbot</title>
-
-  <!-- Styles -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="${window.botConfig.baseUrl}/static/css/materialize.min.css">
-  <link rel="stylesheet" href="${window.botConfig.baseUrl}/static/css/style.css">
-
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="${botConfig.baseUrl}/static/css/style.css">
+  <link rel="stylesheet" href="${botConfig.baseUrl}/static/css/materialize.min.css">
   <style>
-    body {
-      margin: 0;
-      font-family: 'Open Sans', sans-serif;
-    }
     .material-icons {
       font-family: 'Material Icons';
       font-style: normal;
       font-weight: normal;
       font-size: 24px;
-      display: inline-block;
       line-height: 1;
-      -webkit-font-smoothing: antialiased;
+      display: inline-block;
       -webkit-font-feature-settings: 'liga';
+      -webkit-font-smoothing: antialiased;
     }
   </style>
 </head>
 <body>
   <div class="container chatbot-container">
+    <div id="modal1" class="modal">
+      <canvas id="modal-chart"></canvas>
+    </div>
+
     <div class="widget">
       <div class="chat_header">
-        <span class="chat_header_title">${window.botConfig.botName}</span>
-        <span class="dropdown-trigger" data-target="dropdown1">
+        <span class="chat_header_title">${botConfig.botName}</span>
+        <span class="dropdown-trigger" href="#" data-target="dropdown1">
           <i class="material-icons">more_vert</i>
         </span>
         <ul id="dropdown1" class="dropdown-content">
@@ -74,7 +74,9 @@
           <li><a href="#" id="close">Close</a></li>
         </ul>
       </div>
-      <div class="chats" id="chats"></div>
+
+      <div class="chats" id="chats"><div class="clearfix"></div></div>
+
       <div class="keypad">
         <textarea id="userInput" placeholder="Type a message..." class="usrInput"></textarea>
         <div id="sendButton">
@@ -82,18 +84,25 @@
         </div>
       </div>
     </div>
+
+    <div class="profile_div" id="profile_div">
+      <img class="imgProfile" src="${botConfig.baseUrl}/static/img/botAvatar.png" />
+    </div>
+
+    
   </div>
 
-  <script>
-    window.botConfig = ${JSON.stringify(window.botConfig)};
-  </script>
-  <script src="${window.botConfig.baseUrl}/static/js/lib/jquery.min.js"></script>
-  <script src="${window.botConfig.baseUrl}/static/js/lib/materialize.min.js"></script>
-  <script src="${window.botConfig.baseUrl}/static/js/lib/uuid.min.js"></script>
-  <script src="${window.botConfig.baseUrl}/static/js/lib/chart.min.js"></script>
-  <script src="${window.botConfig.baseUrl}/static/js/lib/showdown.min.js"></script>
-  <script src="${window.botConfig.baseUrl}/static/js/script.js"></script>
+  <script src="${botConfig.baseUrl}/static/js/lib/jquery.min.js"></script>
+  <script src="${botConfig.baseUrl}/static/js/lib/materialize.min.js"></script>
+  <script src="${botConfig.baseUrl}/static/js/lib/uuid.min.js"></script>
+  <script src="${botConfig.baseUrl}/static/js/lib/chart.min.js"></script>
+  <script src="${botConfig.baseUrl}/static/js/lib/showdown.min.js"></script>
+  <script src="${botConfig.baseUrl}/static/js/script.js"></script>
 </body>
 </html>
 `;
+
+  // Assign content to iframe
+  iframe.srcdoc = srcdoc;
 })();
+

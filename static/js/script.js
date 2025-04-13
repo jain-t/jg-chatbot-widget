@@ -6,42 +6,43 @@ function include(file) {
   script.type = 'text/javascript';
   script.defer = true;
 
-
   document.getElementsByTagName('head').item(0).appendChild(script);
 }
 
-const shadow  = window.ShadowRootObject
-const $shadow = $(shadow);
-// Bot pop-up intro
-shadow.addEventListener("DOMContentLoaded", () => {  
-  const elemsTap = shadow.querySelector(".tap-target");
-  // eslint-disable-next-line no-undef
-  const instancesTap = M.TapTarget.init(elemsTap, {});
-  instancesTap.open();
-  setTimeout(() => {
-    instancesTap.close();
-  }, 4000);
+
+document.querySelector('#clear')?.addEventListener('click', function (e) {
+  e.preventDefault();
+  e.stopPropagation(); // ✨ prevent it from reaching chat handlers
+  // clearChat(); // or your actual logic
+});
+
+document.querySelector('#restart')?.addEventListener('click', function (e) {
+  e.preventDefault();
+  e.stopPropagation();
+  // restartChat();
+});
+
+document.querySelector('#close')?.addEventListener('click', function (e) {
+  e.preventDefault();
+  e.stopPropagation();
+  // closeChat();
 });
 
 /* import components */
-const baseUrl = window.botConfig?.baseUrl || '';
-include(`${baseUrl}/static/js/components/index.js`);
+include('./static/js/components/index.js');
 
 window.addEventListener('load', () => {
   // initialization
   $(document).ready(() => {
     // Bot pop-up intro
-    
-    $shadow.find("div").removeClass("tap-target-origin");
-   
+    $("div").removeClass("tap-target-origin");
+
     // drop down menu for close, restart conversation & clear the chats.
-    $shadow.find(".dropdown-trigger").dropdown();
+    $(".dropdown-trigger").dropdown();
 
     // initiate the modal for displaying the charts,
     // if you dont have charts, then you comment the below line
-    $shadow.find(".modal").modal();
-
-    
+    $(".modal").modal();
 
     // enable this if u have configured the bot to start the conversation.
     // showBotTyping();
@@ -51,25 +52,25 @@ window.addEventListener('load', () => {
     // customActionTrigger();
   });
   // Toggle the chatbot screen
-  $shadow.find("#profile_div").click(() => {
-    // alert("clicked")
-    $shadow.find("#profile_div").toggle();
-    const $widget = $shadow.find(".widget");
-    $widget.css("display", $widget.css("display") === "none" ? "flex" : "none");
+  $("#profile_div").click(() => {
+    $(".profile_div").toggle();
+    $(".widget").toggle();
+    checkChatSession();
+
   });
 
   // clear function to clear the chat contents of the widget.
-  $shadow.find("#clear").click(() => {
-    $shadow.find(".chats").fadeOut("normal", () => {
-      $shadow.find(".chats").html("");
-      $shadow.find(".chats").fadeIn();
+  $("#clear").click(() => {
+    $(".chats").fadeOut("normal", () => {
+      $(".chats").html("");
+      $(".chats").fadeIn();
     });
   });
 
   // close function to close the widget.
-  $shadow.find("#close").click(() => {
-    $shadow.find(".profile_div").toggle();
-    $shadow.find(".widget").toggle();
+  $("#close").click(() => {
+    $(".profile_div").toggle();
+    $(".widget").toggle();
     scrollToBottomOfResults();
   });
 });

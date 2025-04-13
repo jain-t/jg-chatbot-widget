@@ -8,15 +8,15 @@ function include(file) {
 }
 
 /* include all the components js file */
-const _baseUrl = window.botConfig?.baseUrl || '';
-include(`${_baseUrl}/static/js/components/chat.js`);
-include(`${_baseUrl}/static/js/constants.js`);
-include(`${_baseUrl}/static/js/components/cardsCarousel.js`);
-include(`${_baseUrl}/static/js/components/botTyping.js`);
-include(`${_baseUrl}/static/js/components/charts.js`);
-include(`${_baseUrl}/static/js/components/collapsible.js`);
-include(`${_baseUrl}/static/js/components/dropDown.js`);
-include(`${_baseUrl}/static/js/components/location.js`);
-include(`${_baseUrl}/static/js/components/pdfAttachment.js`);
-include(`${_baseUrl}/static/js/components/quickReplies.js`);
-include(`${_baseUrl}/static/js/components/suggestionButtons.js`);
+
+include('./static/js/components/chat.js');
+include('./static/js/constants.js');
+include('./static/js/components/cardsCarousel.js');
+include('./static/js/components/botTyping.js');
+include('./static/js/components/charts.js');
+include('./static/js/components/collapsible.js');
+include('./static/js/components/dropDown.js');
+include('./static/js/components/location.js');
+include('./static/js/components/pdfAttachment.js');
+include('./static/js/components/quickReplies.js');
+include('./static/js/components/suggestionButtons.js');

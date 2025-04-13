@@ -2,10 +2,14 @@
  * scroll to the bottom of the chats after new message has been added to chat
  */
 const converter = new showdown.Converter();
+const $_shadow = $(window.ShadowRootObject);
 function scrollToBottomOfResults() {
-  const terminalResultsDiv = document.getElementById("chats");
+  
+  const terminalResultsDiv = $shadow.find("#chats")[0];
   terminalResultsDiv.scrollTop = terminalResultsDiv.scrollHeight;
 }
+
+
 
 /**
  * Set user response on the chat screen
@@ -13,12 +17,12 @@ function scrollToBottomOfResults() {
  */
 function setUserResponse(message) {
   const user_response = `<img class="userAvatar" src='./static/img/userAvatar.jpg'><p class="userMsg">${message} </p><div class="clearfix"></div>`;
-  $(user_response).appendTo(".chats").show("slow");
+  $(user_response).appendTo($shadow.find(".chats")).show("slow");
 
-  $(".usrInput").val("");
+  $shadow.find(".usrInput").val("");
   scrollToBottomOfResults();
   showBotTyping();
-  $(".suggestions").remove();
+  $shadow.find(".suggestions").remove();
 }
 
 /**
@@ -47,7 +51,7 @@ function setBotResponse(response) {
 
       const BotResponse = `<img class="botAvatar" src="./static/img/sara_avatar.png"/><p class="botMsg">${fallbackMsg}</p><div class="clearfix"></div>`;
 
-      $(BotResponse).appendTo(".chats").hide().fadeIn(1000);
+      $(BotResponse).appendTo($shadow.find(".chats")).hide().fadeIn(1000);
       scrollToBottomOfResults();
     } else {
       // if we get response from Rasa
@@ -96,7 +100,7 @@ function setBotResponse(response) {
               }
             }
             // append the bot response on to the chat screen
-            $(botResponse).appendTo(".chats").hide().fadeIn(1000);
+            $(botResponse).appendTo($shadow.find(".chats")).hide().fadeIn(1000);
           }
         }
 
@@ -105,7 +109,7 @@ function setBotResponse(response) {
           if (response[i].image !== null) {
             const BotResponse = `<div class="singleCard"><img class="imgcard" src="${response[i].image}"></div><div class="clearfix">`;
 
-            $(BotResponse).appendTo(".chats").hide().fadeIn(1000);
+            $(BotResponse).appendTo($shadow.find(".chats")).hide().fadeIn(1000);
           }
         }
 
@@ -124,7 +128,7 @@ function setBotResponse(response) {
               const video_url = response[i].attachment.payload.src;
 
               const BotResponse = `<div class="video-container"> <iframe src="${video_url}" frameborder="0" allowfullscreen></iframe> </div>`;
-              $(BotResponse).appendTo(".chats").hide().fadeIn(1000);
+              $(BotResponse).appendTo($shadow.find(".chats")).hide().fadeIn(1000);
             }
           }
         }
@@ -227,13 +231,11 @@ function setBotResponse(response) {
  */
 async function send(message) {
   await new Promise((r) => setTimeout(r, 2000));
-  const sessionId = sessionStorage.getItem("sessionId");
-  const domain = 1;
   $.ajax({
     url: rasa_server_url,
     type: "POST",
     contentType: "application/json",
-    data: JSON.stringify({ message: message, session: sessionId, domain: domain}),
+    data: JSON.stringify({ message, sender: sender_id }),
     success(botResponse, status) {
       console.log("Response from Rasa: ", botResponse, "\nStatus: ", status);
 
@@ -334,62 +336,6 @@ function customActionTrigger() {
 }
 
 /**
- * sends an event to the custom action server,
- *  so that bot can start the conversation by greeting the user
- *
- * Make sure you run action server using the command
- * `rasa run actions --cors "*"`
- *
- * `Note: this method will only work in Rasa 2.x`
- */
-// eslint-disable-next-line no-unused-vars
-async function checkChatSession() {
-  let sessionId = sessionStorage.getItem("sessionId");
-  console.log("Session ID: ", sessionId);
-  if (sessionId === null || sessionId == undefined || sessionId === "undefined" || sessionId === "null") {
-    sessionId = await getSessionId();
-    sessionStorage.setItem("sessionId", sessionId);
-  }
- 
-}
-
-function getSessionId() {
-  const domain = 1;
-  return new Promise((resolve, reject) => {
-  $.ajax({
-    url: "http://localhost:8000/chats/sessions/",
-    type: "POST",
-    contentType: "application/json",
-    data: JSON.stringify({
-      "domain": domain,
-    }),
-    success(botResponse, status) {
-      try{
-       resolve(botResponse.id);
-      }
-      catch(e){
-        console.log("Error parsing response: ", e);
-        resolve(null); // ✅ return null if parsing fails
-      }
-
-      // if (Object.hasOwnProperty.call(botResponse, "responses")) {
-      //   setBotResponse(botResponse.responses);
-      // }
-      // $("#userInput").prop("disabled", false);
-    },
-    error(xhr, textStatus) {
-      // if there is no response from rasa server
-      setBotResponse("");
-      console.log("Error from bot end: ", textStatus);
-      $("#userInput").prop("disabled", false);
-      reject(null);
-    },
-  });
-});
-}
-
-
-/**
  * clears the conversation from the chat screen
  * & sends the `/resart` event to the Rasa server
  */
@@ -451,8 +397,9 @@ $(".usrInput").on("keyup keypress", (e) => {
   return true;
 });
 
-$("#sendButton").on("click", (e) => {
-  const text = $(".usrInput").val();
+$shadow.find("#sendButton").on("click", (e) => {
+  
+  const text = $shadow.find(".usrInput").val();
   if (text === "" || $.trim(text) === "") {
     e.preventDefault();
     return false;
@@ -462,16 +409,16 @@ $("#sendButton").on("click", (e) => {
     chatChart.destroy();
   }
 
-  $(".chart-container").remove();
+  $shadow.find(".chart-container").remove();
   if (typeof modalChart !== "undefined") {
     modalChart.destroy();
   }
 
-  $(".suggestions").remove();
-  $("#paginated_cards").remove();
-  $(".quickReplies").remove();
-  $(".usrInput").blur();
-  $(".dropDownMsg").remove();
+  $shadow.find(".suggestions").remove();
+  $shadow.find("#paginated_cards").remove();
+  $shadow.find(".quickReplies").remove();
+  $shadow.find(".usrInput").blur();
+  $shadow.find(".dropDownMsg").remove();
   setUserResponse(text);
   send(text);
   e.preventDefault();
