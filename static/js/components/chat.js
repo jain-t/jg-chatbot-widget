@@ -281,7 +281,7 @@ function actionTrigger() {
     success(botResponse, status) {
       console.log("Response from Rasa: ", botResponse, "\nStatus: ", status);
 
-      if (Object.hasOwnProperty.call(botResponse, "messages")) {
+      if (Object.hasOwnProperty.call(botResponse, "message")) {
         setBotResponse(botResponse.messages);
       }
       $("#userInput").prop("disabled", false);
