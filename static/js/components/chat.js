@@ -7,12 +7,13 @@ function scrollToBottomOfResults() {
   terminalResultsDiv.scrollTop = terminalResultsDiv.scrollHeight;
 }
 
+
 /**
  * Set user response on the chat screen
  * @param {String} message user message
  */
 function setUserResponse(message) {
-  const user_response = `<img class="userAvatar" src='./static/img/userAvatar.jpg'><p class="userMsg">${message} </p><div class="clearfix"></div>`;
+  const user_response = `<img class="userAvatar" src='${window.botConfig["userAvatar"]}'><p class="userMsg">${message} </p><div class="clearfix"></div>`;
   $(user_response).appendTo(".chats").show("slow");
 
   $(".usrInput").val("");
@@ -27,7 +28,7 @@ function setUserResponse(message) {
  *
  */
 function getBotResponse(text) {
-  botResponse = `<img class="botAvatar" src="./static/img/sara_avatar.png"/><span class="botMsg">${text}</span><div class="clearfix"></div>`;
+  botResponse = `<img class="botAvatar" src="${window.botConfig["botAvatar"]}"/><span class="botMsg">${text}</span><div class="clearfix"></div>`;
   return botResponse;
 }
 
@@ -45,7 +46,7 @@ function setBotResponse(response) {
       // if there is no response from Rasa, send  fallback message to the user
       const fallbackMsg = "I am facing some issues, please try again later!!!";
 
-      const BotResponse = `<img class="botAvatar" src="./static/img/sara_avatar.png"/><p class="botMsg">${fallbackMsg}</p><div class="clearfix"></div>`;
+      const BotResponse = `<img class="botAvatar" src="${window.botConfig["botAvatar"]}"/><p class="botMsg">${fallbackMsg}</p><div class="clearfix"></div>`;
 
       $(BotResponse).appendTo(".chats").hide().fadeIn(1000);
       scrollToBottomOfResults();
@@ -87,12 +88,12 @@ function setBotResponse(response) {
               html.includes("<h3")
             ) {
               html = html.replaceAll("<br>", "");
-              // botResponse = `<img class="botAvatar" src="./static/img/sara_avatar.png"/><span class="botMsg">${html}</span><div class="clearfix"></div>`;
+              // botResponse = `<img class="botAvatar" src="${window.botConfig["botAvatar"]}"/><span class="botMsg">${html}</span><div class="clearfix"></div>`;
               botResponse = getBotResponse(html);
             } else {
               // if no markdown formatting found, render the text as it is.
               if (!botResponse) {
-                botResponse = `<img class="botAvatar" src="./static/img/sara_avatar.png"/><p class="botMsg">${response[i].text}</p><div class="clearfix"></div>`;
+                botResponse = `<img class="botAvatar" src="${window.botConfig["botAvatar"]}"/><p class="botMsg">${response[i].text}</p><div class="clearfix"></div>`;
               }
             }
             // append the bot response on to the chat screen
@@ -228,9 +229,9 @@ function setBotResponse(response) {
 async function send(message) {
   await new Promise((r) => setTimeout(r, 2000));
   const sessionId = sessionStorage.getItem("sessionId");
-  const domain = 1;
+  const domain = window.botConfig["domain"];
   $.ajax({
-    url: rasa_server_url,
+    url: sync_url,
     type: "POST",
     contentType: "application/json",
     data: JSON.stringify({ message: message, session: sessionId, domain: domain}),
@@ -354,10 +355,10 @@ async function checkChatSession() {
 }
 
 function getSessionId() {
-  const domain = 1;
+  const domain = window.botConfig["domain"];
   return new Promise((resolve, reject) => {
   $.ajax({
-    url: "http://localhost:8000/chats/sessions/",
+    url: window.botConfig["base_url"] + "/chats/sessions/",
     type: "POST",
     contentType: "application/json",
     data: JSON.stringify({

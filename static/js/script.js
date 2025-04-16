@@ -29,7 +29,7 @@ document.querySelector('#close')?.addEventListener('click', function (e) {
 });
 
 /* import components */
-include('./static/js/components/index.js');
+include(window.botConfig["baseUrl"] + '/static/js/components/index.js');
 
 window.addEventListener('load', () => {
   // initialization

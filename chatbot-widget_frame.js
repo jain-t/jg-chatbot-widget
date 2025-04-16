@@ -2,12 +2,16 @@
 (function () {
   // Configuration
   const botConfig = {
-    baseUrl: ".", // Update to your static host path if needed
+    baseUrl: "{{ server_url }}",
+    botId: "{{ bot_id }}",
+    domain: "{{ domain }}",
     botAvatar: "{{ bot_avatar }}",
     welcomeMessage: "{{ welcome_message }}",
     botName: "{{ bot_name }}",
     userAvatar: "{{ user_avatar }}"
   };
+
+  window.botConfig = botConfig;  
 
   // Create container
   const container = document.createElement("div");
