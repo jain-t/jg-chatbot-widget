@@ -3,6 +3,7 @@
   // Configuration
   const botConfig = {
     baseUrl: "{{ server_url }}",
+    staticURL: "{{ static_url }}",
     botId: "{{ bot_id }}",
     domain: "{{ domain }}",
     botAvatar: "{{ bot_avatar }}",
@@ -45,8 +46,8 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato&display=swap">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="${botConfig.baseUrl}/static/css/style.css">
-  <link rel="stylesheet" href="${botConfig.baseUrl}/static/css/materialize.min.css">
+  <link rel="stylesheet" href="${botConfig.staticURL}static/css/style.css">
+  <link rel="stylesheet" href="${botConfig.staticURL}static/css/materialize.min.css">
   <style>
     .material-icons {
       font-family: 'Material Icons';
@@ -90,18 +91,21 @@
     </div>
 
     <div class="profile_div" id="profile_div">
-      <img class="imgProfile" src="${botConfig.baseUrl}/static/img/botAvatar.png" />
+      <img class="imgProfile" src="${botConfig.baseUrl}static/img/botAvatar.png" />
     </div>
 
     
   </div>
-
-  <script src="${botConfig.baseUrl}/static/js/lib/jquery.min.js"></script>
-  <script src="${botConfig.baseUrl}/static/js/lib/materialize.min.js"></script>
-  <script src="${botConfig.baseUrl}/static/js/lib/uuid.min.js"></script>
-  <script src="${botConfig.baseUrl}/static/js/lib/chart.min.js"></script>
-  <script src="${botConfig.baseUrl}/static/js/lib/showdown.min.js"></script>
-  <script src="${botConfig.baseUrl}/static/js/script.js"></script>
+  <script>
+    window.botConfig = ${JSON.stringify(botConfig)};
+  </script> 
+  <script src="${botConfig.staticURL}static/js/lib/jquery.min.js"></script>
+  <script src="${botConfig.staticURL}static/js/lib/materialize.min.js"></script>
+  <script src="${botConfig.staticURL}static/js/lib/uuid.min.js"></script>
+  <script src="${botConfig.staticURL}static/js/lib/chart.min.js"></script>
+  <script src="${botConfig.staticURL}static/js/lib/showdown.min.js"></script>
+  <script src="${botConfig.staticURL}static/js/script.js"></script>
+   
 </body>
 </html>
 `;

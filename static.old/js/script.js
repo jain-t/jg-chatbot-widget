@@ -24,8 +24,8 @@ shadow.addEventListener("DOMContentLoaded", () => {
 });
 
 /* import components */
-const baseUrl = window.botConfig?.baseUrl || '';
-include(`${baseUrl}/static/js/components/index.js`);
+const staticUrl = window.botConfig?.staticUrl || '';
+include(`${staticUrl}/static/js/components/index.js`);
 
 window.addEventListener('load', () => {
   // initialization

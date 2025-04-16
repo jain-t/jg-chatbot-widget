@@ -9,16 +9,16 @@ function include(file) {
 
 /* include all the components js file */
 
-const baseUrl = window.botConfig["baseUrl"];
+const staticURL = window.botConfig["staticURL"];
 
-include(`${baseUrl}/static/js/components/chat.js`);
-include(`${baseUrl}/static/js/constants.js`);
-include(`${baseUrl}/static/js/components/cardsCarousel.js`);
-include(`${baseUrl}/static/js/components/botTyping.js`);
-include(`${baseUrl}/static/js/components/charts.js`);
-include(`${baseUrl}/static/js/components/collapsible.js`);
-include(`${baseUrl}/static/js/components/dropDown.js`);
-include(`${baseUrl}/static/js/components/location.js`);
-include(`${baseUrl}/static/js/components/pdfAttachment.js`);
-include(`${baseUrl}/static/js/components/quickReplies.js`);
-include(`${baseUrl}/static/js/components/suggestionButtons.js`);
+include(`${staticURL}static/js/components/chat.js`);
+include(`${staticURL}static/js/constants.js`);
+include(`${staticURL}static/js/components/cardsCarousel.js`);
+include(`${staticURL}static/js/components/botTyping.js`);
+include(`${staticURL}static/js/components/charts.js`);
+include(`${staticURL}static/js/components/collapsible.js`);
+include(`${staticURL}static/js/components/dropDown.js`);
+include(`${staticURL}static/js/components/location.js`);
+include(`${staticURL}static/js/components/pdfAttachment.js`);
+include(`${staticURL}static/js/components/quickReplies.js`);
+include(`${staticURL}static/js/components/suggestionButtons.js`);

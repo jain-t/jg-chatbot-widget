@@ -358,7 +358,7 @@ function getSessionId() {
   const domain = window.botConfig["domain"];
   return new Promise((resolve, reject) => {
   $.ajax({
-    url: window.botConfig["base_url"] + "/chats/sessions/",
+    url: window.botConfig["base_url"] + "chats/sessions/",
     type: "POST",
     contentType: "application/json",
     data: JSON.stringify({
