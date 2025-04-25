@@ -356,9 +356,10 @@ async function checkChatSession() {
 
 function getSessionId() {
   const domain = window.botConfig["domain"];
+  console.log("Base URL: ", window.botConfig["baseUrl"]);
   return new Promise((resolve, reject) => {
   $.ajax({
-    url: window.botConfig["base_url"] + "chats/sessions/",
+    url: window.botConfig["baseUrl"]+ "chats/sessions/",
     type: "POST",
     contentType: "application/json",
     data: JSON.stringify({
